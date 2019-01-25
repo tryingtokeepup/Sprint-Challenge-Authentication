@@ -12,6 +12,11 @@ server.use(express.json());
 
 configureRoutes(server);
 
+/// sanity check, and dance check
+server.get('/', (req, res) => {
+  res.send('hopefully everyone is up in here, up in here.');
+});
+
 module.exports = {
-  server,
+  server
 };
