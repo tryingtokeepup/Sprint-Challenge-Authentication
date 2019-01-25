@@ -5,7 +5,7 @@ const jwtKey = process.env.JWT_SECRET;
 // quickly see what this file exports
 module.exports = {
   authenticate,
-  maketoken
+  makeToken
 };
 
 // implementation details
