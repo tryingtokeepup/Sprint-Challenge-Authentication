@@ -1,6 +1,5 @@
 const axios = require('axios');
 const db = require('../database/dbConfig');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const { authenticate, makeToken } = require('../auth/authenticate');
@@ -37,18 +36,14 @@ function login(req, res) {
     .then(user => {
       if (user && bcrypt.compareSync(creds.password, user.password)) {
         const token = makeToken(user);
-        res
-          .status(200)
-          .json({
-            message: `hey ${user.name}! Welcome to the great game.`,
-            token
-          });
+        res.status(200).json({
+          message: `hey ${user.name}! Welcome to the great game.`,
+          token
+        });
       } else {
-        res
-          .status(401)
-          .json({
-            you: 'Sorry buddy, no room for you here yet. Get registered.'
-          });
+        res.status(401).json({
+          you: 'Sorry buddy, no room for you here yet. Get registered.'
+        });
       }
     })
     .catch(err => res.status(500).json(err));
