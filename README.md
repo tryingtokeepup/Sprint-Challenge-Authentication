@@ -29,9 +29,20 @@ Implement an User Authentication System in order to access the jokes from the Jo
 Demonstrate your understanding of this week's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
 1. What is the purpose of using _sessions_?
-1. What does bcrypt do to help us store passwords in a secure manner.
+   Everyone has had the frusturation of logging into some website, closing the tab, only to realize that the website somehow does not remember that they just logged in, forcing them to re-login again. Sessions removes this issue, as it allows a server to store data about a client. In this case, the server can store the client's credentials in a session, persisting it across multiple requests over a duration of time, so that even if the user leaves the website or closes their browser, they can still be authenticated to access the site (as long as that data isn't purged on the closure of the browser).
+
+1. What does bcrypt do to help us store passwords in a secure manner?
+
+Bcrypt is a module that hashes the passwords that we would like to store into a database, so that we do not have passwords stored in plain text in our servers (which would be an easy goldmine for a hacker that manages to gain access to those passwords).
+
+Hashing is incredibly important, as it is a one-way security system, where even if the attacker gains the hash of the password, it still is useless with some sort of algorithim and the exact parameters used by the algorithims. Even in a breech, the hashes are worthless to the attacker (unless they know the exact parameters and the algo that was used to hash those original passwords).
+
 1. What does bcrypt do to slow down attackers?
+
+We know that given infinite time and infinite determination, no one can stop an intruder from eventually cracking into a system. However, just like the fact that to survive a lion, you just need to be faster than the slowest gazelle, we use bcrypt to make our system secure by adding a tremendous barrier to breaking into our system: time complexity. By using bcrypt and adding multiple hashing passes to it, we can effectively make it time and cost inefficent to target our system, which will deter all but the most fastidous attackers out there.
+
 1. What are the three parts of the JSON Web Token?
+   A JSON web token is made up of three parts: the header, which contains the algo and the token type (good to hide this info), the payload, which comprises of claims (permissions for the user), and other stuff like the user's id and other identifiying info. Finally, the third part is the signature, which is the product of encoding the previous two parts, the header and payload, with a base64 algo, and then signing it with some predefined secret (maybe store that in the env?)
 
 ## Project Set Up
 
