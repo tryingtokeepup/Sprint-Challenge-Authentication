@@ -10,6 +10,18 @@ module.exports = server => {
 
 function register(req, res) {
   // implement user registration
+  const userInfo = req.body;
+  // userinfo consists of username, name, and password
+  const hash = bcrypt.hashSync(userInfo.password, 8);
+
+  userInfo.password = hash;
+
+  db('users')
+    .insert(userInfo)
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => res.status(500).json(err));
 }
 
 function login(req, res) {
@@ -18,7 +30,7 @@ function login(req, res) {
 
 function getJokes(req, res) {
   const requestOptions = {
-    headers: { accept: 'application/json' },
+    headers: { accept: 'application/json' }
   };
 
   axios
