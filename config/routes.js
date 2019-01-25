@@ -3,7 +3,7 @@ const db = require('../database/dbConfig');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-const { authenticate } = require('../auth/authenticate');
+const { authenticate, makeToken } = require('../auth/authenticate');
 
 module.exports = server => {
   server.post('/api/register', register);
@@ -28,7 +28,30 @@ function register(req, res) {
 }
 
 function login(req, res) {
-  // implement user login
+  const creds = req.body;
+  console.log(creds);
+
+  db('users')
+    .where({ username: creds.username })
+    .first()
+    .then(user => {
+      if (user && bcrypt.compareSync(creds.password, user.password)) {
+        const token = makeToken(user);
+        res
+          .status(200)
+          .json({
+            message: `hey ${user.name}! Welcome to the great game.`,
+            token
+          });
+      } else {
+        res
+          .status(401)
+          .json({
+            you: 'Sorry buddy, no room for you here yet. Get registered.'
+          });
+      }
+    })
+    .catch(err => res.status(500).json(err));
 }
 
 function getJokes(req, res) {
